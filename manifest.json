@@ -1,0 +1,8 @@
+{
+    "manifest_version": 1,
+    "name": "Instagram Follower Tracker",
+    "version": "1.0.0",
+    "content_scripts": [
+        "matches."
+    ]
+}
