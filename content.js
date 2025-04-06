@@ -3,13 +3,35 @@ document.getElementById("username-form").addEventListener("submit", async (e) =>
     const inputtedUsername = document.getElementById("username").value;
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true }); // returns first tab in array and names it tab
 
+    const removeVerifiedAccounts = document.getElementById("verified-bool").checked;
+    const removalRange = parseInt(document.getElementById("removal-range").value) || 0;
+    console.log(removalRange);
+
     chrome.storage.local.clear()
 
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        func: async (inputtedUsername) => {
+        func: async (inputtedUsername, removeVerifiedAccounts, removalRange) => {
             const username = inputtedUsername;
             let followers = [], followings = [], dontFollowMeBack = [], iDontFollowBack = [];
+
+            const shouldInclude = async (user) => {
+                if (removeVerifiedAccounts && user.is_verified) return false;
+
+                if (removalRange > 0) {
+                    try {
+                        const html = await res.text();
+                        const json = JSON.parse(html.match(/<script type="application\/ld\+json">(.+?)<\/script>/)?.[1] ?? "{}");
+                        const count = json?.mainEntityofPage?.interactionStatistic?.userInteractionCount;
+
+                        if (count && count > removalRange) return false;
+                    } catch (err) {
+                        console.log(err)
+                        alert("Failed to fetch follower count for", user.username)
+                    }
+                }
+                return true;
+            }
 
             try {
                 console.log("Process has started!");
@@ -44,12 +66,13 @@ document.getElementById("username-form").addEventListener("submit", async (e) =>
                     has_next = json.data.user.edge_followed_by.page_info.has_next_page;
                     after = json.data.user.edge_followed_by.page_info.end_cursor;
                     followers = followers.concat(
-                        json.data.user.edge_followed_by.edges.map(({ node }) => {
-                            return {
+                        json.data.user.edge_followed_by.edges
+                            .map(({ node }) => node)
+                            .filter(shouldInclude)
+                            .map((node) => ({
                                 username: node.username,
                                 full_name: node.full_name,
-                            };
-                        })
+                        }))
                     );
                 }
             
@@ -74,12 +97,13 @@ document.getElementById("username-form").addEventListener("submit", async (e) =>
                     has_next = json.data.user.edge_follow.page_info.has_next_page;
                     after = json.data.user.edge_follow.page_info.end_cursor;
                     followings = followings.concat(
-                        json.data.user.edge_follow.edges.map(({ node }) => {
-                            return {
+                        json.data.user.edge_follow.edges
+                            .map(({ node }) => node)
+                            .filter(shouldInclude)
+                            .map((node) => ({
                                 username: node.username,
                                 full_name: node.full_name,
-                            };
-                        })
+                        }))
                     );
                 }
             
@@ -110,7 +134,7 @@ document.getElementById("username-form").addEventListener("submit", async (e) =>
             } catch (err) {
                 console.log("Something went wrong:", err);
             }
-        }, args: [inputtedUsername]
+        }, args: [inputtedUsername, removeVerifiedAccounts, removalRange]
     }).then(() => {
         chrome.tabs.create({ url: chrome.runtime.getURL("results.html") });
     }).catch(err => console.log(err));

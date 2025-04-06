@@ -6,9 +6,11 @@
     <title>Instagram Follower Checker</title>
 </head>
 <body>
-        Enter your username:
-        <form id="username-form">
+    <form id="username-form">
+            Enter your username:
             <input id="username" name="username">
+            Remove verified accounts? <input type="checkbox" name="verified-bool" id="verified-bool">
+            Remove accounts with over <input type="number" name="removal-range" id="removal-range"> followers?
             <button type="submit" id="run">Run Code</button>
         </form>
         <script src="content.js"></script>
