@@ -1,8 +1,17 @@
 {
-    "manifest_version": 1,
+    "manifest_version": 3,
     "name": "Instagram Follower Tracker",
     "version": "1.0.0",
+    "description": "A follower tracker for instagram",
+    "permissions": ["scripting", "activeTab", "storage"],
+    "action": {
+        "default_popup": "popup.html"
+    },
     "content_scripts": [
-        "matches."
-    ]
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ],
+    "host_permissions": ["<all_urls>"]
 }
