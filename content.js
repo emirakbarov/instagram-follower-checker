@@ -37,7 +37,7 @@ document.getElementById("username-form").addEventListener("submit", async (e) =>
                 console.log("Process has started!");
             
                 const userQueryRes = await fetch(
-                    `https://www.instagram.com/web/search/topsearch/?query=${username}`
+                    `https://www.instagram.com/web/search/topsearch/?query=${username}`, { credentials: "include" }
                 );
                 const userQueryJson = await userQueryRes.json();
                 const userId = userQueryJson.users.map(u => u.user)
@@ -60,8 +60,8 @@ document.getElementById("username-form").addEventListener("submit", async (e) =>
                             first: 50,
                             after: after,
                             })
-                        )
-                    )
+                        ), { credentials: "include" }
+                    );
                     const json = await res.json();
                     has_next = json.data.user.edge_followed_by.page_info.has_next_page;
                     after = json.data.user.edge_followed_by.page_info.end_cursor;
@@ -91,7 +91,7 @@ document.getElementById("username-form").addEventListener("submit", async (e) =>
                             first: 50,
                             after: after,
                             })
-                        )
+                        ), { credentials: "include" }
                     );
                     const json = await res.json();
                     has_next = json.data.user.edge_follow.page_info.has_next_page;
