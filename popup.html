@@ -4,15 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Follower Checker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 1rem;
+        }
+        input[type="text"], input[type="checkbox"] {
+            margin-top: 0.5rem;
+        }
+        button {
+            width: 100%;
+            padding: 0.6rem;
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #4338ca;
+        }
+        .spinner {
+            display: none;
+            margin: 1rem auto;
+            width: 32px;
+            height: 32px;
+            border: 4px solid #ccc;
+            border-top: 4px solid #4f46e5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        .note {
+            font-size: 0.85rem;
+            text-align: center;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <form id="username-form">
-            Enter your username:
-            <input id="username" name="username">
-            Remove verified accounts? <input type="checkbox" name="verified-bool" id="verified-bool">
-            Remove accounts with over <input type="number" name="removal-range" id="removal-range"> followers?
-            <button type="submit" id="run">Run Code</button>
+    <div class="container">
+        <h2>Instagram Checker</h2>
+        <form id="username-form">
+            <label>
+                Username:
+                <input id="username" name="username" type="text" required>
+            </label>
+            <label>
+                <input type="checkbox" name="verified-bool" id="verified-bool">
+                Remove verified accounts?
+            </label>
+            <button type="submit" id="run">Check</button>
+            <div class="spinner" id="loadingSpinner"></div>
+            <div class="note" id="loadingNote">⏳ This may take up to a minute depending on your follower count.</div>
         </form>
-        <script src="content.js"></script>
+    </div>
+
+    <script src="popup.js"></script>
+    <script src="content.js"></script>
 </body>
 </html>
