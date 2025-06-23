@@ -12,8 +12,15 @@
     "default_popup": "popup.html",
     "default_title": "Instagram Follower Checker"
   },
+  
   "host_permissions": [
     "https://www.instagram.com/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["howto.html"],
+      "matches": ["<all_urls>"]
+    }
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
