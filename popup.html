@@ -66,6 +66,22 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        .howToContainer {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: none;
+            position: absolute;
+            z-index: 10;
+        }
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
     </style>
 </head>
 <body>
@@ -87,6 +103,13 @@
         <p style="text-align:center; font-size:0.85rem; margin-top:1rem;">
             <a href="#" id="howToLink">How to use?</a>
         </p>
+    </div>
+    <div class="howToContainer">
+        <h2>How to Use</h2>
+        <p>To use the extension, make sure you're signed in to Instagram and have an Instagram tab open.</p>
+        <p>Enter your username and click the "Check" button. The extension will start collecting data.</p>
+        <p><strong>Important:</strong> Do not leave the page or close the extension while it runs. It may take up to a minute depending on how many followers you have.</p>
+        <button id="closeBtn">Got it!</button>
     </div>
 
     <script src="popup.js"></script>
