@@ -55,10 +55,17 @@
     }
 
     li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 0.75rem;
       margin: 0.25rem 0;
       background-color: #eef2ff;
       border-radius: 6px;
+    }
+
+    li:nth-child(even) {
+      background-color: #dbeafe;
     }
 
     .toggle-container {
@@ -81,6 +88,10 @@
       background-color: #374151;
     }
 
+    .dark li:nth-child(even) {
+      background-color: #4b5563;
+    }
+
     .export-btn {
       display: block;
       margin: 1rem auto;
@@ -90,6 +101,10 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
+    }
+
+    svg {
+      fill: #6b7280;
     }
   </style>
 </head>
